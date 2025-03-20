@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { DummyProduct } from './declarations/Dummyjson'
+import { DummyProduct as DP } from './declarations/Dummyjson'
+import { PuffLoader } from 'react-spinners'
+import ProductsTable from './components/table/ProductsTable'
 
 const App = () => {
-    const [products, setProducts] = useState<Array<DummyProduct>>([])
+    const [products, setProducts] = useState<Array<DP>>([])
     const [loading, setLoading] = useState(true)
 
     const traerProductos = async () => {
@@ -26,30 +28,8 @@ const App = () => {
     return (
         <>
             {
-                loading ? <div>Cargando...</div> : <>
-                    <table style={{ textAlign: 'left', fontFamily: 'System-ui' }}>
-                        <thead>
-                            <th>Foto</th>
-                            <th>Producto</th>
-                            <th>Precio</th>
-                        </thead>
-                        <tbody>
-                            {
-                                products.map((product) => (
-                                    <tr key={product.id}>
-                                        <td>
-                                            <img style={{ width: 50 }} src={product.thumbnail} alt={product.title} />
-                                        </td>
-                                        <td>{product.title}</td>
-                                        <td>S/. {product.price}</td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                </>
+                loading ? <PuffLoader /> : <ProductsTable products={products} />
             }
-
         </>
     )
 }
